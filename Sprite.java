@@ -1,5 +1,7 @@
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Sprite.java
@@ -416,5 +418,33 @@ public class Sprite
             pos = spriteScript.indexOf(list, pos);
         }
         return count;
+    }
+
+    public List<String> getAllStringUsage()
+    {
+        List<String> strings = new ArrayList<>();
+        JSONArray stageJSON =
+            FileUtils.getJSONArrayAttribute(jsonObj, "scripts");
+        JSONArray children = new JSONArray();
+ 
+        for (int i = 0; i < stageJSON.size(); i++)
+        {
+            children = (JSONArray) stageJSON.get(i);
+            for (int k = 0; k < children.size(); k++)
+            {
+                if (children.get(k) instanceof JSONArray)
+                {
+                    JSONArray arr = (JSONArray)children.get(k);
+                   for (int j = 0; j < arr.size(); j++)
+                    {
+                        if (arr.get(j) instanceof JSONArray)
+                        {
+                            System.out.println(arr.get(j));
+                        }
+                    }
+                }  
+            }
+        }
+        return strings;
     }
 }

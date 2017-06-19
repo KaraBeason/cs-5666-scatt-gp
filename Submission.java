@@ -2,6 +2,8 @@ import java.io.File;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Submission.java
@@ -1118,6 +1120,21 @@ public class Submission
             pos = stage.indexOf(list, pos);
         }
         return count;
+    }
+
+    public List<String> getAllStringUsage()
+    {
+        List<String> strings = new ArrayList<>();
+        JSONArray stageJSON =
+            FileUtils.getJSONArrayAttribute(jsonObj, "scripts");
+        JSONArray children = new JSONArray();
+        int j = 0;
+        for (int i = 0; i < stageJSON.size(); i++)
+        {
+            children = (JSONArray) stageJSON.get(i);
+            System.out.println(children);
+        }
+        return strings;
     }
 }
 

@@ -4,6 +4,8 @@ import java.io.FileNotFoundException;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.text.DateFormat;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Report.java
@@ -53,6 +55,7 @@ public class Report
                     {
                         printSpriteCounts(printW, i);
                     }
+                    //List<String> strings = submissions[i].getAllStringUsage();
                 }
                 printW.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
                 printW.println();
@@ -213,6 +216,8 @@ public class Report
             printW.println("Sound Blocks: \t\t\t" 
                 + sprites[j].getSoundBlocksForSprite());
             printW.println();
+            printW.println("Scripts block:"
+                + sprites[j].getAllStringUsage());
         }
     }
 
