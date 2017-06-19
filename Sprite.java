@@ -62,6 +62,9 @@ public class Sprite
         countBlockCategoriesForSprite();
         populateVariables();
         populateLists();
+        JSONArray scripts = 
+            FileUtils.getJSONArrayAttribute(jsonObj, "scripts");
+        getAllStringUsage(scripts);
     }
 
     /**
@@ -420,16 +423,26 @@ public class Sprite
         return count;
     }
 
-    public List<String> getAllStringUsage()
+    public List<String> getAllStringUsage(JSONArray jsonArr)
     {
         List<String> strings = new ArrayList<>();
-        JSONArray stageJSON =
-            FileUtils.getJSONArrayAttribute(jsonObj, "scripts");
+ //       JSONArray stageJSON =
+ //         FileUtils.getJSONArrayAttribute(jsonObj, "scripts");
         JSONArray children = new JSONArray();
  
-        for (int i = 0; i < stageJSON.size(); i++)
-        {
-            children = (JSONArray) stageJSON.get(i);
+        for (int i = 0; i < jsonArr.size(); i++)
+        { 
+            if (jsonArr.get(i) instanceof JSONArray)
+            {
+                children = (JSONArray) jsonArr.get(i);
+                getAllStringUsage(children);
+            }
+            else 
+            {
+                System.out.println(jsonArr.get(i));
+            }
+        }
+        /*
             for (int k = 0; k < children.size(); k++)
             {
                 if (children.get(k) instanceof JSONArray)
@@ -444,7 +457,7 @@ public class Sprite
                     }
                 }  
             }
-        }
+        }*/
         return strings;
     }
 }

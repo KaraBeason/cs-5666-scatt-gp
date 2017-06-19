@@ -216,8 +216,8 @@ public class Report
             printW.println("Sound Blocks: \t\t\t" 
                 + sprites[j].getSoundBlocksForSprite());
             printW.println();
-            printW.println("Scripts block:"
-                + sprites[j].getAllStringUsage());
+            //printW.println("Scripts block:"
+            //    + sprites[j].getAllStringUsage());
         }
     }
 
