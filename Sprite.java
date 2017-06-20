@@ -463,8 +463,13 @@ public class Sprite
                 if (command.equals("doAsk")
                     || command.startsWith("say"))
                 {
-                    System.out.println(jsonArr.get(i+1));
-                    printW.println(jsonArr.get(i+1));                    
+                    if (jsonArr.get(i+1) instanceof String)
+                    {
+                        strings.add((String)jsonArr.get(i+1));
+                    }
+                        System.out.println(jsonArr.get(i+1));
+                        printW.println(jsonArr.get(i+1));
+                                      
                 }
             }
 
