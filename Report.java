@@ -40,9 +40,12 @@ public class Report
     {
         File reportFile = new File("./Report-" + getReportDateTime() + ".txt");
         PrintWriter printW;
+        File stringsFile = new File("./Strings.txt"); 
+        PrintWriter stringsPrintW;
         try
         {
             printW = new PrintWriter(reportFile);
+            stringsPrintW = new PrintWriter(stringsFile);
             printW.println("SCATT Report " 
                 + getReportDateTimeForHeader() + "\n");
             for (int i = 0; i < submissions.length; i++)
@@ -53,9 +56,8 @@ public class Report
                     printStageCounts(printW, i);
                     if (submissions[i].getSpriteCount() > 0)
                     {
-                        printSpriteCounts(printW, i);
+                        printSpriteCounts(printW, stringsPrintW, i);
                     }
-                    //List<String> strings = submissions[i].getAllStringUsage();
                 }
                 printW.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
                 printW.println();
@@ -173,7 +175,7 @@ public class Report
      * @param printW - the PrintWriter to use.
      * @param i - the index of the submission to print counts for.
      */
-    private void printSpriteCounts(PrintWriter printW, int i)
+    private void printSpriteCounts(PrintWriter printW, PrintWriter stringsPrintW, int i)
     {
         printW.println("Sprite Counts");
         printW.println("---------------------------------");
@@ -216,8 +218,7 @@ public class Report
             printW.println("Sound Blocks: \t\t\t" 
                 + sprites[j].getSoundBlocksForSprite());
             printW.println();
-            //printW.println("Scripts block:"
-            //    + sprites[j].getAllStringUsage());
+            printConversationStrings(stringsPrintW, sprites[j]);    
         }
     }
 
@@ -400,5 +401,21 @@ public class Report
         DateFormat dateFormat = new SimpleDateFormat("MMMM d, yyyy h:mm:ss a");
         Date date = new Date();
         return dateFormat.format(date);
+    }
+
+    /**
+     * Method to print all strings used in sprite conversations
+     *  to a separate file.
+     */
+    public void printConversationStrings(PrintWriter stringPrintW, Sprite sprite)
+    {
+        String[] strings = sprite.getConversationStrings();
+        System.out.println("Strings used: ");
+        for (int i = 0; i < strings.length; i++)
+        {
+            System.out.println(strings[i]);
+            stringPrintW.println(strings[i]);
+        }
+
     }
 }

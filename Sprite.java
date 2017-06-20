@@ -2,6 +2,10 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 import java.util.List;
 import java.util.ArrayList;
+import java.io.PrintWriter;
+import java.io.PrintWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
 
 /**
  * Sprite.java
@@ -37,7 +41,7 @@ public class Sprite
     private int soundBlocksForSprite;
     private String[] variables;
     private String[] lists;       
-    
+    private String[] conversationStrings;
     /**
      * Sprite constructor.
      *
@@ -64,7 +68,16 @@ public class Sprite
         populateLists();
         JSONArray scripts = 
             FileUtils.getJSONArrayAttribute(jsonObj, "scripts");
-        getAllStringUsage(scripts);
+        File stringsFile = new File("./" + name + "Strings.txt");
+        PrintWriter printW;
+        try {
+                printW = new PrintWriter(stringsFile);               
+                getAllStringUsage(printW, scripts);
+        }
+        catch (FileNotFoundException ex)
+        {
+            ex.printStackTrace();
+        }
     }
 
     /**
@@ -423,11 +436,18 @@ public class Sprite
         return count;
     }
 
-    public List<String> getAllStringUsage(JSONArray jsonArr)
+    public String[] getConversationStrings()
+    {
+        if (conversationStrings == null)
+        {
+            return new String[] {"no strings used"};
+        }
+        return conversationStrings;
+    }
+
+    public void getAllStringUsage(PrintWriter printW, JSONArray jsonArr)
     {
         List<String> strings = new ArrayList<>();
- //       JSONArray stageJSON =
- //         FileUtils.getJSONArrayAttribute(jsonObj, "scripts");
         JSONArray children = new JSONArray();
  
         for (int i = 0; i < jsonArr.size(); i++)
@@ -435,29 +455,20 @@ public class Sprite
             if (jsonArr.get(i) instanceof JSONArray)
             {
                 children = (JSONArray) jsonArr.get(i);
-                getAllStringUsage(children);
+                getAllStringUsage(printW, children);
             }
-            else 
+            else if (jsonArr.get(i) instanceof String) 
             {
-                System.out.println(jsonArr.get(i));
-            }
-        }
-        /*
-            for (int k = 0; k < children.size(); k++)
-            {
-                if (children.get(k) instanceof JSONArray)
+                String command = (String) jsonArr.get(i);
+                if (command.equals("doAsk")
+                    || command.startsWith("say"))
                 {
-                    JSONArray arr = (JSONArray)children.get(k);
-                   for (int j = 0; j < arr.size(); j++)
-                    {
-                        if (arr.get(j) instanceof JSONArray)
-                        {
-                            System.out.println(arr.get(j));
-                        }
-                    }
-                }  
+                    System.out.println(jsonArr.get(i+1));
+                    printW.println(jsonArr.get(i+1));                    
+                }
             }
-        }*/
-        return strings;
+
+        }
+            conversationStrings = strings.toArray(new String[strings.size()]);
     }
 }
