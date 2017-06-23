@@ -41,7 +41,9 @@ public class Sprite
     private int soundBlocksForSprite;
     private String[] variables;
     private String[] lists;       
+    private List<String> strings = new ArrayList<>();
     private String[] conversationStrings;
+     
     /**
      * Sprite constructor.
      *
@@ -73,6 +75,11 @@ public class Sprite
         try {
                 printW = new PrintWriter(stringsFile);               
                 getAllStringUsage(printW, scripts);
+                
+                for (int i=0; i < strings.size(); i++)
+                {
+                    System.out.println(strings.get(i));
+                }
         }
         catch (FileNotFoundException ex)
         {
@@ -447,7 +454,6 @@ public class Sprite
 
     public void getAllStringUsage(PrintWriter printW, JSONArray jsonArr)
     {
-        List<String> strings = new ArrayList<>();
         JSONArray children = new JSONArray();
  
         for (int i = 0; i < jsonArr.size(); i++)
@@ -463,12 +469,17 @@ public class Sprite
                 if (command.equals("doAsk")
                     || command.startsWith("say"))
                 {
-                    System.out.println(jsonArr.get(i+1));
-                    printW.println(jsonArr.get(i+1));                    
+                    if (jsonArr.get(i+1) instanceof String)
+                    {
+                        strings.add((String)jsonArr.get(i+1));
+                    }                    
+                    if (jsonArr.get(i+1) instanceof JSONArray)
+                    {
+                        strings.add(jsonArr.get(i+1).toString());
+                    }
                 }
             }
 
         }
-            conversationStrings = strings.toArray(new String[strings.size()]);
     }
 }
