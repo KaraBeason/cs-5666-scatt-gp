@@ -410,7 +410,7 @@ public class Report
     public void printConversationStrings(PrintWriter stringPrintW, Sprite sprite)
     {
         String[] strings = sprite.getConversationStrings();
-        System.out.println("Strings used: ");
+        //System.out.println("Strings used: ");
         for (int i = 0; i < strings.length; i++)
         {
             System.out.println(strings[i]);
