@@ -42,7 +42,6 @@ public class Sprite
     private String[] variables;
     private String[] lists;       
     private List<String> strings = new ArrayList<>();
-    private String[] conversationStrings;
      
     /**
      * Sprite constructor.
@@ -73,13 +72,9 @@ public class Sprite
         File stringsFile = new File("./" + name + "Strings.txt");
         PrintWriter printW;
         try {
-                printW = new PrintWriter(stringsFile);               
+                printW = new PrintWriter(stringsFile);
+                strings = new ArrayList<String>();               
                 getAllStringUsage(printW, scripts);
-                
-                for (int i=0; i < strings.size(); i++)
-                {
-                    System.out.println(strings.get(i));
-                }
         }
         catch (FileNotFoundException ex)
         {
@@ -443,13 +438,9 @@ public class Sprite
         return count;
     }
 
-    public String[] getConversationStrings()
+    public List<String> getConversationStrings()
     {
-        if (conversationStrings == null)
-        {
-            return new String[] {"no strings used"};
-        }
-        return conversationStrings;
+        return strings;
     }
 
     public void getAllStringUsage(PrintWriter printW, JSONArray jsonArr)

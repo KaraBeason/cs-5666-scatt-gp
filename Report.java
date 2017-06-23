@@ -409,12 +409,11 @@ public class Report
      */
     public void printConversationStrings(PrintWriter stringPrintW, Sprite sprite)
     {
-        String[] strings = sprite.getConversationStrings();
-        //System.out.println("Strings used: ");
-        for (int i = 0; i < strings.length; i++)
+        List<String> strings = sprite.getConversationStrings();
+        for (int i = 0; i < strings.size(); i++)
         {
-            System.out.println(strings[i]);
-            stringPrintW.println(strings[i]);
+            System.out.println(strings.get(i));
+            stringPrintW.println(strings.get(i));
         }
 
     }
