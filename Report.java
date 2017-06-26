@@ -54,9 +54,12 @@ public class Report
                 {
                     printTotalCounts(printW, i);
                     printStageCounts(printW, i);
+                 // printAllStringUsage(stringsPrintW, i);
                     if (submissions[i].getSpriteCount() > 0)
                     {
-                        printSpriteCounts(printW, stringsPrintW, i);
+                        printSpriteCounts(printW, i);
+                        stringsPrintW.println("String Usage:");
+                        printSpriteStringUsage(stringsPrintW, i);
                     }
                 }
                 printW.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
@@ -175,7 +178,7 @@ public class Report
      * @param printW - the PrintWriter to use.
      * @param i - the index of the submission to print counts for.
      */
-    private void printSpriteCounts(PrintWriter printW, PrintWriter stringsPrintW, int i)
+    private void printSpriteCounts(PrintWriter printW, int i)
     {
         printW.println("Sprite Counts");
         printW.println("---------------------------------");
@@ -218,7 +221,7 @@ public class Report
             printW.println("Sound Blocks: \t\t\t" 
                 + sprites[j].getSoundBlocksForSprite());
             printW.println();
-            printConversationStrings(stringsPrintW, sprites[j]);    
+       //   printConversationStrings(stringsPrintW, sprites[j]);    
         }
     }
 
@@ -407,14 +410,17 @@ public class Report
      * Method to print all strings used in sprite conversations
      *  to a separate file.
      */
-    public void printConversationStrings(PrintWriter stringPrintW, Sprite sprite)
+    public void printSpriteStringUsage(PrintWriter stringPrintW, int i)
     {
-        List<String> strings = sprite.getConversationStrings();
-        for (int i = 0; i < strings.size(); i++)
+        Sprite[] sprites = submissions[i].getSprites();
+        for (int j = 0; j < sprites.length; j++)
         {
-            System.out.println(strings.get(i));
-            stringPrintW.println(strings.get(i));
+            List<String> strings = sprites[j].getConversationStrings();
+            for (int k = 0; k < strings.size(); k++)
+            {
+                System.out.println(strings.get(k));
+                stringPrintW.println(strings.get(k));
+            }
         }
-
     }
 }

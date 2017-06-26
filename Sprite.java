@@ -69,17 +69,8 @@ public class Sprite
         populateLists();
         JSONArray scripts = 
             FileUtils.getJSONArrayAttribute(jsonObj, "scripts");
-        File stringsFile = new File("./" + name + "Strings.txt");
-        PrintWriter printW;
-        try {
-                printW = new PrintWriter(stringsFile);
-                strings = new ArrayList<String>();               
-                getAllStringUsage(printW, scripts);
-        }
-        catch (FileNotFoundException ex)
-        {
-            ex.printStackTrace();
-        }
+        strings = new ArrayList<String>();               
+        getAllStringUsage(scripts);
     }
 
     /**
@@ -443,7 +434,7 @@ public class Sprite
         return strings;
     }
 
-    public void getAllStringUsage(PrintWriter printW, JSONArray jsonArr)
+    public void getAllStringUsage(JSONArray jsonArr)
     {
         JSONArray children = new JSONArray();
  
@@ -452,7 +443,7 @@ public class Sprite
             if (jsonArr.get(i) instanceof JSONArray)
             {
                 children = (JSONArray) jsonArr.get(i);
-                getAllStringUsage(printW, children);
+                getAllStringUsage(children);
             }
             else if (jsonArr.get(i) instanceof String) 
             {
