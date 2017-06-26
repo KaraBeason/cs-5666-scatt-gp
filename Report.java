@@ -40,7 +40,7 @@ public class Report
     {
         File reportFile = new File("./Report-" + getReportDateTime() + ".txt");
         PrintWriter printW;
-        File stringsFile = new File("./Strings.txt"); 
+        File stringsFile = new File("./Strings-" + getReportDateTime() + ".txt"); 
         PrintWriter stringsPrintW;
         try
         {
@@ -54,11 +54,11 @@ public class Report
                 {
                     printTotalCounts(printW, i);
                     printStageCounts(printW, i);
+                    stringsPrintW.println(submissions[i].getName() + ":");
                  // printAllStringUsage(stringsPrintW, i);
                     if (submissions[i].getSpriteCount() > 0)
                     {
                         printSpriteCounts(printW, i);
-                        stringsPrintW.println("String Usage:");
                         printSpriteStringUsage(stringsPrintW, i);
                     }
                 }
@@ -66,6 +66,7 @@ public class Report
                 printW.println();
             }
             printW.close();
+            stringsPrintW.close();
             System.out.println("Report finished. " 
                 + "Report located in current directory.");
         }
@@ -416,10 +417,14 @@ public class Report
         for (int j = 0; j < sprites.length; j++)
         {
             List<String> strings = sprites[j].getConversationStrings();
+            if (strings.size() == 0)
+            {
+                stringPrintW.println("\t No strings used in project.");
+                return;
+            }
             for (int k = 0; k < strings.size(); k++)
             {
-                System.out.println(strings.get(k));
-                stringPrintW.println(strings.get(k));
+                stringPrintW.println("\t" + strings.get(k));
             }
         }
     }
