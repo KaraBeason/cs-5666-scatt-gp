@@ -38,7 +38,8 @@ public class Submission
     private int soundBlocksForStage;
     private String[] globalVariables;
     private String[] globalLists;
-    
+    private List<String> strings = new ArrayList<String>();
+     
     /**
      * Submission constructor.
      *
@@ -67,6 +68,9 @@ public class Submission
         createSprites();
         populateGlobalVariables();
         populateGlobalLists();
+        JSONArray scripts =
+            FileUtils.getJSONArrayAttribute(jsonObj, "scripts"); 
+        getAllStringUsage(scripts);
     }
 
     /**
@@ -1121,20 +1125,41 @@ public class Submission
         }
         return count;
     }
-
-    public List<String> getAllStringUsage()
+    
+    public List<String> getConversationStrings()
     {
-        List<String> strings = new ArrayList<>();
-        JSONArray stageJSON =
-            FileUtils.getJSONArrayAttribute(jsonObj, "scripts");
-        JSONArray children = new JSONArray();
-        int j = 0;
-        for (int i = 0; i < stageJSON.size(); i++)
-        {
-            children = (JSONArray) stageJSON.get(i);
-            System.out.println(children);
-        }
         return strings;
+    }
+
+    public void getAllStringUsage(JSONArray jsonArr)
+    {
+        JSONArray children = new JSONArray();
+ 
+        for (int i = 0; i < jsonArr.size(); i++)
+        { 
+            if (jsonArr.get(i) instanceof JSONArray)
+            {
+                children = (JSONArray) jsonArr.get(i);
+                getAllStringUsage(children);
+            }
+            else if (jsonArr.get(i) instanceof String) 
+            {
+                String command = (String) jsonArr.get(i);
+                if (command.equals("doAsk")
+                    || command.startsWith("say"))
+                {
+                    if (jsonArr.get(i+1) instanceof String)
+                    {
+                        strings.add((String)jsonArr.get(i+1));
+                    }                    
+                    if (jsonArr.get(i+1) instanceof JSONArray)
+                    {
+                        strings.add(jsonArr.get(i+1).toString());
+                    }
+                }
+            }
+
+        }
     }
 }
 

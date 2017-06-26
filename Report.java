@@ -55,7 +55,7 @@ public class Report
                     printTotalCounts(printW, i);
                     printStageCounts(printW, i);
                     stringsPrintW.println(submissions[i].getName() + ":");
-                 // printAllStringUsage(stringsPrintW, i);
+                    printAllStringUsage(stringsPrintW, i);
                     if (submissions[i].getSpriteCount() > 0)
                     {
                         printSpriteCounts(printW, i);
@@ -406,6 +406,23 @@ public class Report
         Date date = new Date();
         return dateFormat.format(date);
     }
+    
+    /**
+     * Method to print all strings used in stage scripts
+     *  to a separate file.
+     */
+    public void printAllStringUsage(PrintWriter stringPrintW, int i)
+    {
+        List<String> strings = submissions[i].getConversationStrings();
+        if (strings.size() == 0)
+        {
+            return;
+        }
+        for (int k = 0; k < strings.size(); k++)
+        {
+            stringPrintW.println("\t" + strings.get(k));
+        }
+    }
 
     /**
      * Method to print all strings used in sprite conversations
@@ -419,7 +436,6 @@ public class Report
             List<String> strings = sprites[j].getConversationStrings();
             if (strings.size() == 0)
             {
-                stringPrintW.println("\t No strings used in project.");
                 return;
             }
             for (int k = 0; k < strings.size(); k++)
