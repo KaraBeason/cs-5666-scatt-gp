@@ -449,7 +449,8 @@ public class Sprite
             {
                 String command = (String) jsonArr.get(i);
                 if (command.equals("doAsk")
-                    || command.startsWith("say"))
+                    || command.startsWith("say")
+                    || command.startsWith("think"))
                 {
                     if (jsonArr.get(i+1) instanceof String)
                     {
