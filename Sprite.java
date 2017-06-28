@@ -448,21 +448,38 @@ public class Sprite
             else if (jsonArr.get(i) instanceof String) 
             {
                 String command = (String) jsonArr.get(i);
-                if (command.equals("doAsk")
-                    || command.startsWith("say")
-                    || command.startsWith("think"))
+                if (command.equals("doAsk"))
                 {
-                    if (jsonArr.get(i+1) instanceof String)
-                    {
-                        strings.add((String)jsonArr.get(i+1));
-                    }                    
+                    strings.add("Ask '" + 
+                        (String)jsonArr.get(i+1) + "'");
+                }
+                else if (command.startsWith("say"))
+                {
                     if (jsonArr.get(i+1) instanceof JSONArray)
-                    {
-                        strings.add(jsonArr.get(i+1).toString());
-                    }
+                     {
+                         strings.add("Say '" +
+                            jsonArr.get(i+1).toString() + "'");
+                     }
+                    if (jsonArr.get(i+1) instanceof String)
+                     {
+                         strings.add("Say '" +
+                            (String)jsonArr.get(i+1) + "'");
+                     }
+                }
+                else if (command.startsWith("think"))
+                {
+                    if (jsonArr.get(i+1) instanceof JSONArray)
+                     {
+                         strings.add("Think '" +
+                            jsonArr.get(i+1).toString() + "'");
+                     }
+                    if (jsonArr.get(i+1) instanceof String)
+                     {
+                         strings.add("Think '" +
+                            (String)jsonArr.get(i+1) + "'");
+                     }    
                 }
             }
-
         }
     }
 }
