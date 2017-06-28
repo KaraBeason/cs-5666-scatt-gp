@@ -15,6 +15,16 @@ import java.util.Arrays;
  */
 public class Scatt
 {
+    private static String dirName;
+
+    /**
+     * Method to get the name of selected directory.
+     */
+    public static String getDirName()
+    {
+        return dirName;
+    }
+
     /**
      * Main method for Scatt class.
      *
@@ -23,7 +33,7 @@ public class Scatt
     public static void main(String[] args)
     {
         System.out.print("Please enter the folder name: ");
-        String dirName = System.console().readLine();
+        dirName = System.console().readLine();
         File directory = new File(dirName);
         Boolean isValid = FileUtils.readValidDirectory(directory);
         if (!isValid)

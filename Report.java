@@ -38,9 +38,9 @@ public class Report
      */
     public void makeReport()
     {
-        File reportFile = new File("./Report-" + getReportDateTime() + ".txt");
+        File reportFile = new File("./Report-" + Scatt.getDirName() + ".txt");
         PrintWriter printW;
-        File stringsFile = new File("./Strings-" + getReportDateTime() + ".txt"); 
+        File stringsFile = new File("./Strings-" + Scatt.getDirName() + ".txt"); 
         PrintWriter stringsPrintW;
         try
         {
@@ -103,6 +103,17 @@ public class Report
             + submissions[i].getSoundCountForProgram());
         printW.println("Costumes Total: \t\t" 
             + submissions[i].getCostumeCountForProgram());
+        printW.println("All Blocks total: \t\t"
+            + (submissions[i].getControlBlocksForProgram()
+            + submissions[i].getDataBlocksForProgram()
+            + submissions[i].getEventsBlocksForProgram()
+            + submissions[i].getLooksBlocksForProgram()
+            + submissions[i].getMoreBlocksBlocksForProgram()
+            + submissions[i].getMotionBlocksForProgram()
+            + submissions[i].getOperatorsBlocksForProgram()
+            + submissions[i].getPenBlocksForProgram()
+            + submissions[i].getSensingBlocksForProgram()
+            + submissions[i].getSoundBlocksForProgram()));
         printW.println("Control Blocks: \t\t" 
             + submissions[i].getControlBlocksForProgram());
         printW.println("Data Blocks: \t\t\t" 
